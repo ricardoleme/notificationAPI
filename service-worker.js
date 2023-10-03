@@ -26,7 +26,7 @@ self.addEventListener('install', function(event) {
   self.addEventListener('notificationclick', function(event) {
     event.notification.close();
     event.waitUntil(
-      clients.openWindow('http://127.0.0.1:5500') // URL para a página a ser aberta
+      clients.openWindow('https://ricardoleme.github.io/notificationAPI/') // URL para a página a ser aberta
     );
   });
   
