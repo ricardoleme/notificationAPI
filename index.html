@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Exemplo de Notificações na Web</title>
+    <link rel="icon" type="image/png" href="images/warning.png">
+</head>
+
+<body>
+    <button id="notifyButton">Enviar Notificação</button>
+
+    <script>
+        // Coloque o código do Service Worker aqui
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(function (registration) {
+                    console.log('Service Worker registrado com sucesso:', registration);
+                })
+                .catch(function (error) {
+                    console.log('Erro ao registrar o Service Worker:', error);
+                });
+        }
+
+        // Solicitar permissão para notificações
+        function requestNotificationPermission() {
+            if (Notification.permission === 'default') {
+                Notification.requestPermission()
+                    .then(function (permission) {
+                        sendNotification('Título da Notificação', 'Corpo da Notificação', 'images/warning.png');
+                    });
+            } else if (Notification.permission === 'granted') {
+                // Permissão já foi concedida, enviar notificação
+                sendNotification('Título da Notificação', 'Corpo da Notificação', 'images/warning.png');
+            }
+        }
+
+     /**
+     * Envia uma notificação.
+     *
+     * @param {string} title - O título da notificação.
+     * @param {string} body - O corpo da notificação.
+     * @param {string} iconURL - (Opcional) URL para um ícone personalizado.
+     * @returns {void}
+     */
+        function sendNotification(title, body, iconURL) {
+            if (Notification.permission === 'granted') {
+                const notification = new Notification(title, {
+                    body: body,
+                    icon: iconURL
+                });
+            }
+        }
+
+        document.getElementById('notifyButton').addEventListener('click', requestNotificationPermission);
+    </script>
+</body>
+
+</html>
